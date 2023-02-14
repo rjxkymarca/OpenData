@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Wan - OpenData</title>
+  <LINK href="../index.css" rel="stylesheet" type="text/css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  <script href="../index.js" type="text/css"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../images/Wan.png" alt="" width="100rem"class="d-inline-block align-text-top">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <h1 style="text-align: center; margin-top: 0.5rem;">Estrazione dati Open data</h1>
+  <div style="text-align: center; margin-top: 1.5rem;" id="filters">
+    <div class="input-group mb-3">
+      <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
+      <button class="btn btn-primary" id="search-button-ente" type="button">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+    <div class="input-group mb-3">
+      <input id="search-input-comune" type="text" class="form-control" placeholder="Cerca per comune">
+      <button class="btn btn-primary" id="search-button-comune" type="button">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+    <div class="input-group mb-3">
+      <input id="search-input-provincia" type="text" class="form-control" placeholder="Cerca per provincia">
+      <button class="btn btn-primary" id="search-button-provincia" type="button">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  <button class="btn btn-primary" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span> Cancella filtri</button>
+  <button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button>
+  </div>
+  <div class="table-wrapper-scroll-y my-custom-scrollbar" id="tableContainer">
+    <table id="table" class="table table-hover mb-0" style="margin: 0.5rem auto; width: 30%;">
+      <thead>
+        <tr>
+          <th scope="col">Codice IPA</th>
+          <th scope="col">Ente</th>
+          <th scope="col">Comune</th>
+          <th scope="col">Provincia</th>
+          <th scope="col">Regione</th>
+          <th scope="col">Importo finanziamento</th>
+          <th scope="col">Avviso</th>
+          <th scope="col">Data invio candidatura</th>
+          <th scope="col">Data finanziamento</th>
+          <th scope="col">Stato candidatura</th>
+        </tr>
+      </thead>
+      <tbody>
+  
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    let isFiltered = false
+    let lastIndex = 0
+    $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+      isFiltered = false  
+      for(let i = 0; i < 300; i++)
+        {
+          let newRow = $("<tr>")
+          $("<td>").html(data[i].codice_ipa).appendTo(newRow)
+          $("<td>").html(data[i].ente).appendTo(newRow)
+          $("<td>").html(data[i].comune).appendTo(newRow)
+          $("<td>").html(data[i].provincia).appendTo(newRow)
+          $("<td>").html(data[i].regione).appendTo(newRow)
+          $("<td>").html(data[i].importo_finanziamento).appendTo(newRow)
+          $("<td>").html(data[i].avviso).appendTo(newRow)
+          $("<td>").html(data[i].data_invio_candidatura).appendTo(newRow)
+          $("<td>").html(data[i].data_finanziamento).appendTo(newRow)
+          $("<td>").html(data[i].stato_candidatura).appendTo(newRow)
+          newRow.appendTo("#table tbody")
+        }
+        lastIndex = 300
+    });
+
+    function myFunction() {
+    // Declare variables
+    var inputEnte, inputComune, inputProvincia, filterEnte, filterComune, filterProvincia, table, tr, tdEnte, tdComune, tdProvincia, i, txtValueEnte, txtValueComune, txtValueProvincia
+    inputEnte = document.getElementById("filterEnte");
+    inputComune = document.getElementById("filterComune");
+    inputProvincia = document.getElementById("filterProvincia");
+    filterEnte = inputEnte.value.toUpperCase();
+    filterComune = inputComune.value.toUpperCase();
+    filterProvincia = inputProvincia.value.toUpperCase();
+    table = document.getElementById("table");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      tdEnte = tr[i].getElementsByTagName("td")[1];
+      tdComune = tr[i].getElementsByTagName("td")[2];
+      tdProvincia = tr[i].getElementsByTagName("td")[3];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+  document.getElementById("tableContainer").addEventListener("scroll", function() {
+    
+    if(isFiltered == false) {
+      var scrollTop = document.getElementById("tableContainer").scrollTop;
+      var scrollHeight = document.getElementById("tableContainer").scrollHeight;
+      var offsetHeight = document.getElementById("tableContainer").offsetHeight;
+      
+      //check if the scroll reached the bottom
+      if (offsetHeight + scrollTop >= scrollHeight)
+      {
+        $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+          for(let i = lastIndex; i < (lastIndex + 300); i++)
+          {
+            let newRow = $("<tr>")
+            $("<td>").html(data[i].codice_ipa).appendTo(newRow)
+            $("<td>").html(data[i].ente).appendTo(newRow)
+            $("<td>").html(data[i].comune).appendTo(newRow)
+            $("<td>").html(data[i].provincia).appendTo(newRow)
+            $("<td>").html(data[i].regione).appendTo(newRow)
+            $("<td>").html(data[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(data[i].avviso).appendTo(newRow)
+            $("<td>").html(data[i].data_invio_candidatura).appendTo(newRow)
+            $("<td>").html(data[i].data_finanziamento).appendTo(newRow)
+            $("<td>").html(data[i].stato_candidatura).appendTo(newRow)
+            newRow.appendTo("#table tbody")
+          }
+          lastIndex += 300
+      });
+      }
+    }
+});
+
+  $("#search-button-ente").on('click', () => {
+      let inputValue = $("#search-input-ente").val();
+      if(inputValue != "") {
+        isFiltered = true
+        let array = null
+        $("#table tbody tr").each(function() {
+          $(this).remove()
+        })
+        $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+          array = data.filter(a => a.ente.toUpperCase().includes(inputValue.toUpperCase()))
+          for(let i = 0; i < array.length; i++)
+          {
+            let newRow = $("<tr>")
+            $("<td>").html(array[i].codice_ipa).appendTo(newRow)
+            $("<td>").html(array[i].ente).appendTo(newRow)
+            $("<td>").html(array[i].comune).appendTo(newRow)
+            $("<td>").html(array[i].provincia).appendTo(newRow)
+            $("<td>").html(array[i].regione).appendTo(newRow)
+            $("<td>").html(array[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].avviso).appendTo(newRow)
+            $("<td>").html(array[i].data_invio_candidatura).appendTo(newRow)
+            $("<td>").html(array[i].data_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].stato_candidatura).appendTo(newRow)
+            newRow.appendTo("#table tbody")
+          }
+        });
+      } 
+      else {
+        alert("Inserire un valore!")
+      }
+  });
+  $("#search-button-comune").on('click', () => {
+      let inputValue = $("#search-input-comune").val();
+      if(inputValue != "") {
+        isFiltered = true
+        let array = null
+        $("#table tbody tr").each(function() {
+          $(this).remove()
+        })
+        $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+          array = data.filter(a => a.comune.toUpperCase().includes(inputValue.toUpperCase()))
+          for(let i = 0; i < array.length; i++)
+          {
+            let newRow = $("<tr>")
+            $("<td>").html(array[i].codice_ipa).appendTo(newRow)
+            $("<td>").html(array[i].ente).appendTo(newRow)
+            $("<td>").html(array[i].comune).appendTo(newRow)
+            $("<td>").html(array[i].provincia).appendTo(newRow)
+            $("<td>").html(array[i].regione).appendTo(newRow)
+            $("<td>").html(array[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].avviso).appendTo(newRow)
+            $("<td>").html(array[i].data_invio_candidatura).appendTo(newRow)
+            $("<td>").html(array[i].data_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].stato_candidatura).appendTo(newRow)
+            newRow.appendTo("#table tbody")
+          }
+        });
+      } 
+      else {
+        alert("Inserire un valore!")
+      }
+  });
+  $("#search-button-provincia").on('click', () => {
+      let inputValue = $("#search-input-provincia").val();
+      if(inputValue != "") {
+        isFiltered = true
+        let array = null
+        $("#table tbody tr").each(function() {
+          $(this).remove()
+        })
+        $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+          array = data.filter(a => a.provincia.toUpperCase().includes(inputValue.toUpperCase()))
+          for(let i = 0; i < array.length; i++)
+          {
+            let newRow = $("<tr>")
+            $("<td>").html(array[i].codice_ipa).appendTo(newRow)
+            $("<td>").html(array[i].ente).appendTo(newRow)
+            $("<td>").html(array[i].comune).appendTo(newRow)
+            $("<td>").html(array[i].provincia).appendTo(newRow)
+            $("<td>").html(array[i].regione).appendTo(newRow)
+            $("<td>").html(array[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].avviso).appendTo(newRow)
+            $("<td>").html(array[i].data_invio_candidatura).appendTo(newRow)
+            $("<td>").html(array[i].data_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].stato_candidatura).appendTo(newRow)
+            newRow.appendTo("#table tbody")
+          }
+        });
+      } 
+      else {
+        alert("Inserire un valore!")
+      }
+  });
+
+  $("#btnImporto").on('click', () => {
+      let inputValue = $("#search-input-ente").val();
+      if(inputValue != "") {
+        isFiltered = true
+        let array = null
+        var items = {}, base, key;
+        $("#table tbody tr").each(function() {
+          $(this).remove()
+        })
+        $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+          array = data.filter(a => a.ente.toUpperCase().includes(inputValue.toUpperCase()));
+          $.each(array, function(index, val) {
+              key = val.avviso;
+              if (!items[key]) {
+                  items[key] = 0;
+              }
+              items[key] += val.importo_finanziamento;
+          });
+          var outputArr = [];
+          $.each(items, function(key, val) {
+              outputArr.push([key, val]);
+          });
+
+          for(let i = 0; i < outputArr.length; i++)
+          {
+            let newRow = $("<tr>")
+            $("<td>").html("").appendTo(newRow)
+            $("<td>").html("").appendTo(newRow)
+            $("<td>").html("").appendTo(newRow)
+            $("<td>").html("").appendTo(newRow)
+            $("<td>").html("").appendTo(newRow)
+            $("<td>").html(outputArr[i][0]).appendTo(newRow)
+            $("<td>").html(outputArr[i][1]).appendTo(newRow)
+            $("<td>").html("").appendTo(newRow)
+            $("<td>").html("").appendTo(newRow)
+            $("<td>").html("").appendTo(newRow)
+            newRow.appendTo("#table tbody")
+          }
+        });
+      } 
+      else {
+        alert("Inserire un ente di cui calcolare l'importo!")
+      }
+  });
+    </script>
+</body>
+</html>
