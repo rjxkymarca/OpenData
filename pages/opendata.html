@@ -3,7 +3,7 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>Wan - OpenData</title>
   <LINK href="../index.css" rel="stylesheet" type="text/css"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  <script href="../index.js" type="text/css"></script>
@@ -14,39 +14,16 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="../index.html">
-        <img src="../images/Wan.png" alt="" width="100rem"class="d-inline-block align-text-top">
+  <nav class="navbar navbar-expand navbar-light" style="width: 100%;">
+    <div class="container-fluid" style="width: 100%;">
+      <a href="../index.html">
+        <img src="../images/Wan.png" alt="" width="20%"class="d-inline-block align-text-top">
       </a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-      </div>
+      
     </div>
   </nav>
   <h1 style="text-align: center; margin-top: 0.5rem;">Estrazione dati Open data</h1>
-  <div style="text-align: center; margin-top: 1.5rem;" id="filters">
+  <div style="text-align: center; padding-top: 0.5rem; width: 50%; margin: 0 auto;" id="filters">
     <div class="input-group mb-3">
       <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
       <button class="btn btn-primary" id="search-button-ente" type="button">
@@ -68,27 +45,59 @@
   <button class="btn btn-primary" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span> Cancella filtri</button>
   <button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button>
   </div>
-  <div class="table-wrapper-scroll-y my-custom-scrollbar" id="tableContainer">
-    <table id="table" class="table table-hover mb-0" style="margin: 0.5rem auto; width: 30%;">
-      <thead>
-        <tr>
-          <th scope="col">Codice IPA</th>
-          <th scope="col">Ente</th>
-          <th scope="col">Comune</th>
-          <th scope="col">Provincia</th>
-          <th scope="col">Regione</th>
-          <th scope="col">Importo finanziamento</th>
-          <th scope="col">Avviso</th>
-          <th scope="col">Data invio candidatura</th>
-          <th scope="col">Data finanziamento</th>
-          <th scope="col">Stato candidatura</th>
-        </tr>
-      </thead>
-      <tbody>
-  
-      </tbody>
-    </table>
+  <br>
+  <div id="labelsImporto" style="display: none;">
+    <br>
+    <h6 style="text-align: center;">Somma spesa presunta: <span id="sumSpesaPres">0</span></h6>
+    <h6 style="text-align: center;">Somma residuo: <span id="sumResiduo">0</span></h6>
+    <br><br>
   </div>
+  <div class="main-wrapper">
+    <div id="tableContainer" style="visibility: visible;" class="responsive-table">
+      <table id="table" class="table">
+        <thead id="tableHead" style="overflow: hidden;">
+          <tr>
+            <th scope="col">Ente</th>
+            <th scope="col">Comune</th>
+            <th scope="col">Provincia</th>
+            <th scope="col">Regione</th>
+            <th scope="col">Importo finanziamento</th>
+            <th scope="col">Avviso</th>
+            <th scope="col">Data finanziamento</th>
+            <th scope="col">Stato candidatura</th>
+            <th scope="col">Percentuale</th>
+            <th scope="col">Spesa presunta</th>
+            <th scope="col">Residuo</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+      </table>
+    </div>
+    <div id="tableContainerImporto" style="visibility:hidden;" class="responsive-table">
+      <table id="tableImporto" class="table">
+        <thead id="tableHeadImporto" style="overflow: hidden;">
+          <tr>
+            <th scope="col">Ente</th>
+            <th scope="col">Avviso</th>
+            <th scope="col">Importo finanziamento</th>
+          </tr>
+        </thead>
+        <tbody id="tableBodyImporto">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br><br><br><br>
+  <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
+    <div class="container text-center">
+      <small>Copyright &copy; Wan S.r.l.</small>
+    </div>
+  </footer>
+  
+  
   
   <script>
     let isFiltered = false
@@ -98,16 +107,42 @@
       for(let i = 0; i < 300; i++)
         {
           let newRow = $("<tr>")
-          $("<td>").html(data[i].codice_ipa).appendTo(newRow)
           $("<td>").html(data[i].ente).appendTo(newRow)
           $("<td>").html(data[i].comune).appendTo(newRow)
           $("<td>").html(data[i].provincia).appendTo(newRow)
           $("<td>").html(data[i].regione).appendTo(newRow)
           $("<td>").html(data[i].importo_finanziamento).appendTo(newRow)
           $("<td>").html(data[i].avviso).appendTo(newRow)
-          $("<td>").html(data[i].data_invio_candidatura).appendTo(newRow)
           $("<td>").html(data[i].data_finanziamento).appendTo(newRow)
           $("<td>").html(data[i].stato_candidatura).appendTo(newRow)
+            if(data[i].avviso.includes("1.2")){
+              $("<td>").html("15%").appendTo(newRow);
+              $("<td>").html((data[i].importo_finanziamento * 15)/100).appendTo(newRow)
+              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 15)/100)).appendTo(newRow)
+            } else if(data[i].avviso.includes("1.4.1")){
+              $("<td>").html("20%").appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+            } else if(data[i].avviso.includes("1.4.3 - app IO")){
+              $("<td>").html("40%").appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento * 40)/100).appendTo(newRow)
+              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 40)/100)).appendTo(newRow)
+            } else if(data[i].avviso.includes("1.4.3 - pagoPA")){
+              $("<td>").html("35%").appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento * 35)/100).appendTo(newRow)
+              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 35)/100)).appendTo(newRow)
+            } else if(data[i].avviso.includes("1.4.4")){
+              $("<td>").html("20%").appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento * 20)/100).appendTo(newRow)
+              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+            } else if(data[i].avviso.includes("1.4.5")){
+              $("<td>").html("60%").appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento * 60)/100).appendTo(newRow)
+              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 60)/100)).appendTo(newRow)
+            } else {
+              $("<td>").html("").appendTo(newRow)
+            }
+          
           newRow.appendTo("#table tbody")
         }
         lastIndex = 300
@@ -141,13 +176,13 @@
     }
   }
 
-  document.getElementById("tableContainer").addEventListener("scroll", function() {
+  document.getElementsByClassName("main-wrapper")[0].addEventListener("scroll", function() {
     
     if(isFiltered == false) {
-      var scrollTop = document.getElementById("tableContainer").scrollTop;
-      var scrollHeight = document.getElementById("tableContainer").scrollHeight;
-      var offsetHeight = document.getElementById("tableContainer").offsetHeight;
-      
+      var scrollTop = document.getElementsByClassName("main-wrapper")[0].scrollTop;
+      var scrollHeight = document.getElementsByClassName("main-wrapper")[0].scrollHeight;
+      var offsetHeight = document.getElementsByClassName("main-wrapper")[0].offsetHeight;
+
       //check if the scroll reached the bottom
       if (offsetHeight + scrollTop >= scrollHeight)
       {
@@ -269,6 +304,11 @@
 
   $("#btnImporto").on('click', () => {
       let inputValue = $("#search-input-ente").val();
+      let sumSpesaPres = 0
+      let sumResiduo = 0
+      $("#tableContainer").css("visibility", "hidden")
+      $("#tableContainerImporto").css("visibility", "visible")
+      $("#labelsImporto").css("display", "block")
       if(inputValue != "") {
         isFiltered = true
         let array = null
@@ -284,6 +324,40 @@
                   items[key] = 0;
               }
               items[key] += val.importo_finanziamento;
+              if(val.avviso.includes("1.2")){
+                sumSpesaPres += (val.importo_finanziamento * 15)/100
+                sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
+              $("#sumSpesaPres").html(sumSpesaPres)
+              $("#sumResiduo").html(sumResiduo)
+            } else if(val.avviso.includes("1.4.1")){
+              sumSpesaPres += (val.importo_finanziamento * 20)/100
+                sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
+              $("#sumSpesaPres").html(sumSpesaPres)
+              $("#sumResiduo").html(sumResiduo)
+            } else if(val.avviso.includes("1.4.3 - app IO")){
+              sumSpesaPres += (val.importo_finanziamento * 40)/100
+                sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
+              $("#sumSpesaPres").html(sumSpesaPres)
+              $("#sumResiduo").html(sumResiduo)
+            } else if(val.avviso.includes("1.4.3 - pagoPA")){
+              sumSpesaPres += (val.importo_finanziamento * 35)/100
+                sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
+              $("#sumSpesaPres").html(sumSpesaPres)
+              $("#sumResiduo").html(sumResiduo)
+            } else if(val.avviso.includes("1.4.4")){
+              sumSpesaPres += (val.importo_finanziamento * 15)/100
+                sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
+              $("#sumSpesaPres").html(sumSpesaPres)
+              $("#sumResiduo").html(sumResiduo)
+            } else if(val.avviso.includes("1.4.5")){
+              sumSpesaPres += (val.importo_finanziamento * 60)/100
+                sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
+              $("#sumSpesaPres").html(sumSpesaPres)
+              $("#sumResiduo").html(sumResiduo)
+            } else {
+              $("<td>").html("").appendTo(newRow)
+            }
+              
           });
           var outputArr = [];
           $.each(items, function(key, val) {
@@ -293,17 +367,10 @@
           for(let i = 0; i < outputArr.length; i++)
           {
             let newRow = $("<tr>")
-            $("<td>").html("").appendTo(newRow)
-            $("<td>").html("").appendTo(newRow)
-            $("<td>").html("").appendTo(newRow)
-            $("<td>").html("").appendTo(newRow)
-            $("<td>").html("").appendTo(newRow)
+            $("<td>").html(inputValue).appendTo(newRow)
             $("<td>").html(outputArr[i][0]).appendTo(newRow)
             $("<td>").html(outputArr[i][1]).appendTo(newRow)
-            $("<td>").html("").appendTo(newRow)
-            $("<td>").html("").appendTo(newRow)
-            $("<td>").html("").appendTo(newRow)
-            newRow.appendTo("#table tbody")
+            newRow.appendTo("#tableImporto tbody")
           }
         });
       } 
