@@ -35,6 +35,10 @@
    background: #6cf;
 }
 
+#filterContainer button{
+    margin: 3rem;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     .main-wrapper{
         width: 100%;
