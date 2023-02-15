@@ -417,7 +417,10 @@
         isFiltered = true
         let array = null
         var items = {}, base, key;
-        $("#table tbody tr").each(function() {
+        $("#table tr").each(function() {
+          $(this).remove()
+        })
+        $("#tableImporto tbody tr").each(function() {
           $(this).remove()
         })
         $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
