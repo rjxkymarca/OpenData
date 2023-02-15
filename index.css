@@ -1,12 +1,35 @@
-.my-custom-scrollbar {
-    position: relative;
-    height: 36.5rem;
-    overflow: auto;
-}
-.table-wrapper-scroll-y {
-    display: block;
-}
+.main-wrapper{
+    width: 70%;
+    overflow-y: auto;
+    height: 400px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  .responsive-table{
+    display: inline-block;
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .responsive-table > table {
+    width: 100%;
+  }
+  
+  .responsive-table > table td, th {
+    border: 1px solid #cccccc;
+    padding: 8px;
+    font-family: Arial;
+    font-size: 16px;
+  }
 #filters {
-    width: 55rem;
+    width: 100%;
     margin: 0 auto;
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .main-wrapper{
+        width: 100%;
+        padding: 0;
+      }
+  }
