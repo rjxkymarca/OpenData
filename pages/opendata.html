@@ -23,20 +23,21 @@
     </div>
   </nav>
   <h1 style="text-align: center; margin-top: 0.5rem;">Estrazione dati Open data</h1>
-  <div style="text-align: center; padding-top: 0.5rem; width: 50%; margin: 0 auto;" id="filters">
-    <div class="input-group mb-3">
+  <div style="text-align: center; padding-top: 0.5rem; width: 100%; margin: 0 auto;" id="filters">
+    <br>
+    <div class="input-group mb-3" style="width: 30%;margin: 0 auto;">
       <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
       <button class="btn btn-primary" id="search-button-ente" type="button">
         <i class="bi bi-search"></i>
       </button>
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-3" style="width: 30%;margin: 0 auto;">
       <input id="search-input-comune" type="text" class="form-control" placeholder="Cerca per comune">
       <button class="btn btn-primary" id="search-button-comune" type="button">
         <i class="bi bi-search"></i>
       </button>
     </div>
-    <div class="input-group mb-3">
+    <div class="input-group mb-3" style="width: 30%;margin: 0 auto;">
       <input id="search-input-provincia" type="text" class="form-control" placeholder="Cerca per provincia">
       <button class="btn btn-primary" id="search-button-provincia" type="button">
         <i class="bi bi-search"></i>
@@ -46,14 +47,14 @@
       <button class="btn btn-primary" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span> Cancella filtri</button>
       <button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button>    
     </div>
+    <div id="labelsImporto" style="display: none; width: 50%;margin: 0 auto;">
+      <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
+      <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span><br>
+      <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span>
+      <br><br>
+    </div>
   </div>
   <br>
-  <div id="labelsImporto" style="display: none;">
-    <br>
-    <h6 style="text-align: center;">Somma spesa presunta: <span id="sumSpesaPres">0</span></h6>
-    <h6 style="text-align: center;">Somma residuo: <span id="sumResiduo">0</span></h6>
-    <br><br>
-  </div>
   <div class="main-wrapper">
     <div id="tableContainer" style="visibility: visible;" class="responsive-table">
       <table id="table" class="table">
@@ -406,6 +407,12 @@
       }
   });
 
+  $.fn.digits = function(){ 
+    return this.each(function(){ 
+        $(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") ); 
+    })
+}
+
   $("#btnImporto").on('click', () => {
       let inputValue = $("#search-input-ente").val();
       let sumSpesaPres = 0
@@ -435,33 +442,33 @@
               if(val.avviso.includes("1.2")){
                 sumSpesaPres += (val.importo_finanziamento * 15)/100
                 sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
-              $("#sumSpesaPres").html(sumSpesaPres)
-              $("#sumResiduo").html(sumResiduo)
+              $("#sumSpesaPres").html(sumSpesaPres.toString().replace(/\./g, ',')).digits()
+              $("#sumResiduo").html(sumResiduo.toString().replace(/\./g, ',')).digits()
             } else if(val.avviso.includes("1.4.1")){
               sumSpesaPres += (val.importo_finanziamento * 20)/100
                 sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
-              $("#sumSpesaPres").html(sumSpesaPres)
-              $("#sumResiduo").html(sumResiduo)
+              $("#sumSpesaPres").html(sumSpesaPres.toString().replace(/\./g, ',')).digits()
+              $("#sumResiduo").html(sumResiduo.toString().replace(/\./g, ',')).digits()
             } else if(val.avviso.includes("1.4.3 - app IO")){
               sumSpesaPres += (val.importo_finanziamento * 40)/100
                 sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
-              $("#sumSpesaPres").html(sumSpesaPres)
-              $("#sumResiduo").html(sumResiduo)
+              $("#sumSpesaPres").html(sumSpesaPres.toString().replace(/\./g, ',')).digits()
+              $("#sumResiduo").html(sumResiduo.toString().replace(/\./g, ',')).digits()
             } else if(val.avviso.includes("1.4.3 - pagoPA")){
               sumSpesaPres += (val.importo_finanziamento * 35)/100
                 sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
-              $("#sumSpesaPres").html(sumSpesaPres)
-              $("#sumResiduo").html(sumResiduo)
+              $("#sumSpesaPres").html(sumSpesaPres.toString().replace(/\./g, ',')).digits()
+              $("#sumResiduo").html(sumResiduo.toString().replace(/\./g, ',')).digits()
             } else if(val.avviso.includes("1.4.4")){
               sumSpesaPres += (val.importo_finanziamento * 15)/100
                 sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
-              $("#sumSpesaPres").html(sumSpesaPres)
-              $("#sumResiduo").html(sumResiduo)
+              $("#sumSpesaPres").html(sumSpesaPres.toString().replace(/\./g, ',')).digits()
+              $("#sumResiduo").html(sumResiduo.toString().replace(/\./g, ',')).digits()
             } else if(val.avviso.includes("1.4.5")){
               sumSpesaPres += (val.importo_finanziamento * 60)/100
                 sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
-              $("#sumSpesaPres").html(sumSpesaPres)
-              $("#sumResiduo").html(sumResiduo)
+              $("#sumSpesaPres").html(sumSpesaPres.toString().replace(/\./g, ',')).digits()
+              $("#sumResiduo").html(sumResiduo.toString().replace(/\./g, ',')).digits()
             }
               
           });
@@ -469,15 +476,17 @@
           $.each(items, function(key, val) {
               outputArr.push([key, val]);
           });
-
+          let sumImporto = 0
           for(let i = 0; i < outputArr.length; i++)
           {
             let newRow = $("<tr>")
             $("<td>").html(inputValue).appendTo(newRow)
             $("<td>").html(outputArr[i][0]).appendTo(newRow)
-            $("<td>").html(outputArr[i][1]).appendTo(newRow)
+            $("<td>").html(outputArr[i][1].toString().replace(/\./g, ',')).digits().appendTo(newRow)
+            sumImporto += outputArr[i][1]
             newRow.appendTo("#tableImporto tbody")
           }
+          $("#sumImporto").html(sumImporto.toString().replace(/\./g, ',')).digits()
         });
       } 
       else {
