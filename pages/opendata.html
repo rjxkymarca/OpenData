@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>Wan - OpenData</title>
   <LINK href="../index.css" rel="stylesheet" type="text/css"/>
+  <link rel="icon" type="image/x-icon" href="/images/favicon_wan.ico">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  <script href="../index.js" type="text/css"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -58,9 +59,9 @@
       <button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button>    
     </div>
     <div id="labelsImporto" style="display: none; width: 50%;margin: 0 auto;">
+      <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span>
       <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
       <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span><br>
-      <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span>
       <br><br>
     </div>
   </div>
@@ -124,34 +125,34 @@
           $("<td>").html(data[i].comune).appendTo(newRow)
           $("<td>").html(data[i].provincia).appendTo(newRow)
           $("<td>").html(data[i].regione).appendTo(newRow)
-          $("<td>").html(data[i].importo_finanziamento).appendTo(newRow)
+          $("<td>").html(data[i].importo_finanziamento.toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
           $("<td>").html(data[i].avviso).appendTo(newRow)
           $("<td>").html(data[i].data_finanziamento).appendTo(newRow)
           $("<td>").html(data[i].stato_candidatura).appendTo(newRow)
             if(data[i].avviso.includes("1.2")){
               $("<td>").html("15%").appendTo(newRow);
-              $("<td>").html((data[i].importo_finanziamento * 15)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 15)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 15)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.1")){
               $("<td>").html("20%").appendTo(newRow)
-              $("<td>").html(((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.3 - app IO")){
               $("<td>").html("40%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 40)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 40)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 40)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.3 - pagoPA")){
               $("<td>").html("35%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 35)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 35)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 35)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 35)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.4")){
               $("<td>").html("20%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 20)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.5")){
               $("<td>").html("60%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 60)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 60)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 60)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 60)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else {
               $("<td>").html("").appendTo(newRow)
             }
@@ -207,34 +208,34 @@
             $("<td>").html(data[i].comune).appendTo(newRow)
             $("<td>").html(data[i].provincia).appendTo(newRow)
             $("<td>").html(data[i].regione).appendTo(newRow)
-            $("<td>").html(data[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(data[i].importo_finanziamento.toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             $("<td>").html(data[i].avviso).appendTo(newRow)
             $("<td>").html(data[i].data_finanziamento).appendTo(newRow)
             $("<td>").html(data[i].stato_candidatura).appendTo(newRow)
             if(data[i].avviso.includes("1.2")){
               $("<td>").html("15%").appendTo(newRow);
-              $("<td>").html((data[i].importo_finanziamento * 15)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 15)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 15)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.1")){
               $("<td>").html("20%").appendTo(newRow)
-              $("<td>").html(((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.3 - app IO")){
               $("<td>").html("40%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 40)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 40)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 40)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.3 - pagoPA")){
               $("<td>").html("35%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 35)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 35)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 35)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 35)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.4")){
               $("<td>").html("20%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 20)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 20)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(data[i].avviso.includes("1.4.5")){
               $("<td>").html("60%").appendTo(newRow)
-              $("<td>").html((data[i].importo_finanziamento * 60)/100).appendTo(newRow)
-              $("<td>").html(data[i].importo_finanziamento - ((data[i].importo_finanziamento * 60)/100)).appendTo(newRow)
+              $("<td>").html(((data[i].importo_finanziamento * 60)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((data[i].importo_finanziamento - ((data[i].importo_finanziamento * 60)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else {
               $("<td>").html("").appendTo(newRow)
             }
@@ -264,34 +265,34 @@
             $("<td>").html(array[i].comune).appendTo(newRow)
             $("<td>").html(array[i].provincia).appendTo(newRow)
             $("<td>").html(array[i].regione).appendTo(newRow)
-            $("<td>").html(array[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].importo_finanziamento.toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             $("<td>").html(array[i].avviso).appendTo(newRow)
             $("<td>").html(array[i].data_finanziamento).appendTo(newRow)
             $("<td>").html(array[i].stato_candidatura).appendTo(newRow)
             if(array[i].avviso.includes("1.2")){
               $("<td>").html("15%").appendTo(newRow);
-              $("<td>").html((array[i].importo_finanziamento * 15)/100).appendTo(newRow)
-              $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 15)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((array[i].importo_finanziamento - ((array[i].importo_finanziamento * 15)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(array[i].avviso.includes("1.4.1")){
               $("<td>").html("20%").appendTo(newRow)
-              $("<td>").html(((array[i].importo_finanziamento * 20)/100)).appendTo(newRow)
-              $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((array[i].importo_finanziamento - ((array[i].importo_finanziamento * 20)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(array[i].avviso.includes("1.4.3 - app IO")){
               $("<td>").html("40%").appendTo(newRow)
-              $("<td>").html((array[i].importo_finanziamento * 40)/100).appendTo(newRow)
-              $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 40)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((array[i].importo_finanziamento - ((array[i].importo_finanziamento * 40)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(array[i].avviso.includes("1.4.3 - pagoPA")){
               $("<td>").html("35%").appendTo(newRow)
-              $("<td>").html((array[i].importo_finanziamento * 35)/100).appendTo(newRow)
-              $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 35)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 35)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((array[i].importo_finanziamento - ((array[i].importo_finanziamento * 35)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(array[i].avviso.includes("1.4.4")){
               $("<td>").html("20%").appendTo(newRow)
-              $("<td>").html((array[i].importo_finanziamento * 20)/100).appendTo(newRow)
-              $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((array[i].importo_finanziamento - ((array[i].importo_finanziamento * 20)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(array[i].avviso.includes("1.4.5")){
               $("<td>").html("60%").appendTo(newRow)
-              $("<td>").html((array[i].importo_finanziamento * 60)/100).appendTo(newRow)
-              $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 60)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 60)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((array[i].importo_finanziamento - ((array[i].importo_finanziamento * 60)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else {
               $("<td>").html("").appendTo(newRow)
             }
@@ -321,7 +322,7 @@
             $("<td>").html(array[i].comune).appendTo(newRow)
             $("<td>").html(array[i].provincia).appendTo(newRow)
             $("<td>").html(array[i].regione).appendTo(newRow)
-            $("<td>").html(array[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].importo_finanziamento.toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             $("<td>").html(array[i].avviso).appendTo(newRow)
             $("<td>").html(array[i].data_finanziamento).appendTo(newRow)
             $("<td>").html(array[i].stato_candidatura).appendTo(newRow)
@@ -377,17 +378,17 @@
             $("<td>").html(array[i].comune).appendTo(newRow)
             $("<td>").html(array[i].provincia).appendTo(newRow)
             $("<td>").html(array[i].regione).appendTo(newRow)
-            $("<td>").html(array[i].importo_finanziamento).appendTo(newRow)
+            $("<td>").html(array[i].importo_finanziamento.toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             $("<td>").html(array[i].avviso).appendTo(newRow)
             $("<td>").html(array[i].data_finanziamento).appendTo(newRow)
             $("<td>").html(array[i].stato_candidatura).appendTo(newRow)
             if(array[i].avviso.includes("1.2")){
               $("<td>").html("15%").appendTo(newRow);
-              $("<td>").html((array[i].importo_finanziamento * 15)/100).appendTo(newRow)
-              $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 15)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+              $("<td>").html((array[i].importo_finanziamento - ((array[i].importo_finanziamento * 15)/100)).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
             } else if(array[i].avviso.includes("1.4.1")){
               $("<td>").html("20%").appendTo(newRow)
-              $("<td>").html(((array[i].importo_finanziamento * 20)/100)).appendTo(newRow)
+              $("<td>").html(((array[i].importo_finanziamento * 20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
               $("<td>").html(array[i].importo_finanziamento - ((array[i].importo_finanziamento * 20)/100)).appendTo(newRow)
             } else if(array[i].avviso.includes("1.4.3 - app IO")){
               $("<td>").html("40%").appendTo(newRow)
@@ -489,12 +490,14 @@
           let sumImporto = 0
           for(let i = 0; i < outputArr.length; i++)
           {
-            let newRow = $("<tr>")
-            $("<td>").html(inputValue).appendTo(newRow)
-            $("<td>").html(outputArr[i][0]).appendTo(newRow)
-            $("<td>").html(outputArr[i][1].toString().replace(/\./g, ',')).digits().appendTo(newRow)
-            sumImporto += outputArr[i][1]
-            newRow.appendTo("#tableImporto tbody")
+              if(outputArr[i][0].includes("1.2") || outputArr[i][0].includes("1.4.1") || outputArr[i][0].includes("1.4.3") || outputArr[i][0].includes("1.4.4") || outputArr[i][0].includes("1.4.5")){
+                let newRow = $("<tr>")
+                $("<td>").html(inputValue).appendTo(newRow)
+                $("<td>").html(outputArr[i][0]).appendTo(newRow)
+                $("<td style='text-align: right'>").html(outputArr[i][1].toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                sumImporto += outputArr[i][1]
+                newRow.appendTo("#tableImporto tbody")
+              }
           }
           $("#sumImporto").html(sumImporto.toFixed(2).toString().replace(/\./g, ',')).digits()
         });
