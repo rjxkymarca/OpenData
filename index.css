@@ -54,3 +54,9 @@
     padding-right: 2rem;
     float: right;
   }
+
+  @media (max-width: 1000px) {
+    #filters div{
+      width: 90% !important;
+    }
+}
