@@ -168,7 +168,7 @@
         lastIndex = 300
     });
 
-    function myFunction() {
+  function myFunction() {
     // Declare variables
     var inputEnte, inputComune, inputProvincia, filterEnte, filterComune, filterProvincia, table, tr, tdEnte, tdComune, tdProvincia, i, txtValueEnte, txtValueComune, txtValueProvincia
     inputEnte = document.getElementById("filterEnte");
@@ -263,7 +263,7 @@
           $(this).remove()
         })
         $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
-          array = data.filter(a => a.ente.toUpperCase() == ("COMUNE DI " & inputValue.toUpperCase()))
+          array = data.filter(a => a.ente.toUpperCase() == ("COMUNE DI " + inputValue.toUpperCase()))
           let codComune = array[0].cod_comune
           for(let i = 0; i < array.length; i++)
           {
