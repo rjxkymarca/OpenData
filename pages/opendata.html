@@ -262,6 +262,9 @@
         $("#table tbody tr").each(function() {
           $(this).remove()
         })
+        if($("#tableContainerImporto").is(":visible")) {
+          location.reload()
+        }
         $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
           array = data.filter(a => a.ente.toUpperCase() == ("COMUNE DI " + inputValue.toUpperCase()))
           let codComune = array[0].cod_comune
