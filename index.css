@@ -54,6 +54,10 @@
     padding-right: 2rem;
     float: right;
   }
+  .entr{
+    padding-right: 2rem;
+    float: right;
+  }
 
   @media (max-width: 1000px) {
     #filters div{
