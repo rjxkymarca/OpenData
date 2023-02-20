@@ -243,6 +243,27 @@
     }else{
       inputValue = $("#search-input-ente").val();
     }
+    if(inputValue.includes("ì")){
+        inputValue = inputValue.replace(/\ì/g, 'i\'')
+      } else if (inputValue.includes("í")){
+        inputValue = inputValue.replace(/\í/g, 'i\'')
+      } else if (inputValue.includes("è")){
+        inputValue = inputValue.replace(/\è/g, 'e\'')
+      } else if (inputValue.includes("é")){
+        inputValue = inputValue.replace(/\é/g, 'e\'')
+      } else if (inputValue.includes("ò")){
+        inputValue = inputValue.replace(/\ò/g, 'o\'')
+      } else if (inputValue.includes("ó")){
+        inputValue = inputValue.replace(/\ó/g, 'o\'')
+      } else if (inputValue.includes("à")){
+        inputValue = inputValue.replace(/\à/g, 'a\'')
+      } else if (inputValue.includes("á")){
+        inputValue = inputValue.replace(/\á/g, 'a\'')
+      } else if (inputValue.includes("ù")){
+        inputValue = inputValue.replace(/\ù/g, 'u\'')
+      } else if (inputValue.includes("ú")){
+        inputValue = inputValue.replace(/\ú/g, 'u\'')
+      }
     if(inputValue != "") {
       isFiltered = true
       let array = null
@@ -254,6 +275,10 @@
       }
       $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
         array = data.filter(a => a.ente.toUpperCase() == ("COMUNE DI " + inputValue.toUpperCase()))
+        if(array.length == 0){
+            alert("Inserire un ente valido!");
+            location.reload();
+        }
         let codComune = array[0].cod_comune
         $("#search-input-ente").val("Comune di " + inputValue.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                   return letter.toUpperCase();
@@ -323,6 +348,27 @@
       }else{
         inputValue = $("#search-input-ente").val();
       }
+      if(inputValue.includes("ì")){
+        inputValue = inputValue.replace(/\ì/g, 'i\'')
+      } else if (inputValue.includes("í")){
+        inputValue = inputValue.replace(/\í/g, 'i\'')
+      } else if (inputValue.includes("è")){
+        inputValue = inputValue.replace(/\è/g, 'e\'')
+      } else if (inputValue.includes("é")){
+        inputValue = inputValue.replace(/\é/g, 'e\'')
+      } else if (inputValue.includes("ò")){
+        inputValue = inputValue.replace(/\ò/g, 'o\'')
+      } else if (inputValue.includes("ó")){
+        inputValue = inputValue.replace(/\ó/g, 'o\'')
+      } else if (inputValue.includes("à")){
+        inputValue = inputValue.replace(/\à/g, 'a\'')
+      } else if (inputValue.includes("á")){
+        inputValue = inputValue.replace(/\á/g, 'a\'')
+      } else if (inputValue.includes("ù")){
+        inputValue = inputValue.replace(/\ù/g, 'u\'')
+      } else if (inputValue.includes("ú")){
+        inputValue = inputValue.replace(/\ú/g, 'u\'')
+      }
       let sumSpesaPres = 0
       let sumResiduo = 0
       $("#tableContainer").css("visibility", "hidden")
@@ -342,6 +388,10 @@
         })
         $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
           array = data.filter(a => a.ente.toUpperCase() == ("COMUNE DI " + inputValue.toUpperCase()))
+          if(array.length == 0){
+            alert("Inserire un ente valido!");
+            location.reload();
+          }
           let codComune = array[0].cod_comune
           $.each(array, function(index, val) {
             let newRow = $("<tr>")
