@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav id="nav" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="../index.html">
         <img src="../images/Wan.png" alt="" width="100rem"class="d-inline-block align-text-top">
@@ -33,76 +33,79 @@
     </div>
   </nav>
   <br>
-  <h1 style="text-align: center; margin-top: 0.5rem;">Estrazione dati Open data</h1>
-  <div style="text-align: center; padding-top: 0.5rem; width: 100%; margin: 0 auto;" id="filters">
+  <div id="wrapper">
+    <h1 style="text-align: center; margin-top: 0.5rem;">Estrazione dati Open data</h1>
+    <div style="text-align: center; padding-top: 0.5rem; width: 100%; margin: 0 auto;" id="filters">
+      <br>
+      <div class="input-group mb-3" style="width: 30%;margin: 0 auto;">
+        <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
+        <dfn style="width: 40rem !important;" data-info="Inserire un ente di cui estrarre i dati. Fare attenzione a eventuali caratteri speciali come accenti o apostrofi.">
+        <button class="btn btn-primary" id="search-button-ente" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+      </dfn>
+      </div>
+      <div style="padding: 10px; margin: 0 auto;" id="filterContainer">
+        <button class="btn btn-primary" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span> Cancella filtri</button>
+        <dfn data-info="Calcola l'importo finanziato, la spesa presunta, il residuo e le entrate di un ente inserito in input."><button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button></dfn>    
+      </div>
+      <div id="labels">
+        <div id="labelsImporto" style="display: none; width: 40%;margin: 0 auto;">
+          <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span><br>
+          <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
+          <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span>
+          <br><br>
+        </div>
+        <div id="labelsEntrate" style="display: none; width: 40%;margin: 0 auto;">
+          <span class="text"><b>Entrate correnti</b>: </span><span id="entrCorrenti" class="entr">0</span><br>
+          <span class="text"><b>Entrate capitali</b>: </span><span id="entrCapitali" class="entr">0</span><br>
+          <br><br>
+        </div>
+      </div>
+    </div>
     <br>
-    <div class="input-group mb-3" style="width: 30%;margin: 0 auto;">
-      <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
-      <dfn style="width: 40rem !important;" data-info="Inserire un ente di cui estrarre i dati. Fare attenzione a eventuali caratteri speciali come accenti o apostrofi.">
-      <button class="btn btn-primary" id="search-button-ente" type="button">
-        <i class="bi bi-search"></i>
-      </button>
-    </dfn>
-    </div>
-    <div style="padding: 10px; margin: 0 auto;" id="filterContainer">
-      <button class="btn btn-primary" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span> Cancella filtri</button>
-      <dfn data-info="Calcola l'importo finanziato, la spesa presunta, il residuo e le entrate di un ente inserito in input."><button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button></dfn>    
-    </div>
-    <div id="labels">
-      <div id="labelsImporto" style="display: none; width: 40%;margin: 0 auto;">
-        <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span><br>
-        <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
-        <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span>
-        <br><br>
+    <div class="main-wrapper">
+      <div id="tableContainer" style="visibility: visible;" class="responsive-table">
+        <table id="table" class="table">
+          <thead id="tableHead" style="overflow: hidden;text-align: center;border: 1px solid #cccccc;">
+            <tr>
+              <th scope="col">Ente</th>
+              <th scope="col">Comune</th>
+              <th scope="col">Provincia</th>
+              <th scope="col">Regione</th>
+              <th scope="col">Importo finanziamento</th>
+              <th scope="col">Avviso</th>
+              <th scope="col">Data finanziamento</th>
+              <th scope="col">Stato candidatura</th>
+              <th scope="col">Percentuale</th>
+              <th scope="col">Spesa presunta</th>
+              <th scope="col">Residuo</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" style="text-align: center; vertical-align: middle;">
+  
+          </tbody>
+        </table>
       </div>
-      <div id="labelsEntrate" style="display: none; width: 40%;margin: 0 auto;">
-        <span class="text"><b>Entrate correnti</b>: </span><span id="entrCorrenti" class="entr">0</span><br>
-        <span class="text"><b>Entrate capitali</b>: </span><span id="entrCapitali" class="entr">0</span><br>
-        <br><br>
+      <div id="tableContainerImporto" style="visibility:hidden;" class="responsive-table">
+        <table id="tableImporto" class="table">
+          <thead id="tableHeadImporto" style="overflow: hidden;">
+            <tr>
+              <th scope="col">Ente</th>
+              <th scope="col">Avviso</th>
+              <th scope="col">Residuo</th>
+              <th scope="col">Importo finanziamento</th>
+            </tr>
+          </thead>
+          <tbody id="tableBodyImporto">
+  
+          </tbody>
+        </table>
       </div>
     </div>
+    <br><br><br><br>
   </div>
-  <br>
-  <div class="main-wrapper">
-    <div id="tableContainer" style="visibility: visible;" class="responsive-table">
-      <table id="table" class="table">
-        <thead id="tableHead" style="overflow: hidden;text-align: center;border: 1px solid #cccccc;">
-          <tr>
-            <th scope="col">Ente</th>
-            <th scope="col">Comune</th>
-            <th scope="col">Provincia</th>
-            <th scope="col">Regione</th>
-            <th scope="col">Importo finanziamento</th>
-            <th scope="col">Avviso</th>
-            <th scope="col">Data finanziamento</th>
-            <th scope="col">Stato candidatura</th>
-            <th scope="col">Percentuale</th>
-            <th scope="col">Spesa presunta</th>
-            <th scope="col">Residuo</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody" style="text-align: center; vertical-align: middle;">
-
-        </tbody>
-      </table>
-    </div>
-    <div id="tableContainerImporto" style="visibility:hidden;" class="responsive-table">
-      <table id="tableImporto" class="table">
-        <thead id="tableHeadImporto" style="overflow: hidden;">
-          <tr>
-            <th scope="col">Ente</th>
-            <th scope="col">Avviso</th>
-            <th scope="col">Residuo</th>
-            <th scope="col">Importo finanziamento</th>
-          </tr>
-        </thead>
-        <tbody id="tableBodyImporto">
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <br><br><br><br>
+  
   <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50">
     <div class="container text-center">
       <small>Copyright &copy; Wan S.r.l.</small>
