@@ -38,31 +38,35 @@
     <br>
     <div class="input-group mb-3" style="width: 30%;margin: 0 auto;">
       <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
+      <dfn style="width: 40rem !important;" data-info="Inserire un ente di cui estrarre i dati. Fare attenzione a eventuali caratteri speciali come accenti o apostrofi.">
       <button class="btn btn-primary" id="search-button-ente" type="button">
         <i class="bi bi-search"></i>
       </button>
+    </dfn>
     </div>
     <div style="padding: 10px; margin: 0 auto;" id="filterContainer">
       <button class="btn btn-primary" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span> Cancella filtri</button>
-      <button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button>    
+      <dfn data-info="Calcola l'importo finanziato, la spesa presunta, il residuo e le entrate di un ente inserito in input."><button class="btn btn-danger" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button></dfn>    
     </div>
-    <div id="labelsImporto" style="display: none; width: 40%;margin: 0 auto;">
-      <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span><br>
-      <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
-      <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span>
-      <br><br>
-    </div>
-    <div id="labelsEntrate" style="display: none; width: 40%;margin: 0 auto;">
-      <span class="text"><b>Entrate correnti</b>: </span><span id="entrCorrenti" class="entr">0</span><br>
-      <span class="text"><b>Entrate capitali</b>: </span><span id="entrCapitali" class="entr">0</span><br>
-      <br><br>
+    <div id="labels">
+      <div id="labelsImporto" style="display: none; width: 40%;margin: 0 auto;">
+        <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span><br>
+        <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
+        <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span>
+        <br><br>
+      </div>
+      <div id="labelsEntrate" style="display: none; width: 40%;margin: 0 auto;">
+        <span class="text"><b>Entrate correnti</b>: </span><span id="entrCorrenti" class="entr">0</span><br>
+        <span class="text"><b>Entrate capitali</b>: </span><span id="entrCapitali" class="entr">0</span><br>
+        <br><br>
+      </div>
     </div>
   </div>
   <br>
   <div class="main-wrapper">
     <div id="tableContainer" style="visibility: visible;" class="responsive-table">
       <table id="table" class="table">
-        <thead id="tableHead" style="overflow: hidden;text-align: center;">
+        <thead id="tableHead" style="overflow: hidden;text-align: center;border: 1px solid #cccccc;">
           <tr>
             <th scope="col">Ente</th>
             <th scope="col">Comune</th>
@@ -178,7 +182,7 @@
     }
   }
 
-  document.getElementsByClassName("main-wrapper")[0].addEventListener("scroll", function() {
+  document.getElementsByClassName("main-wrapper")[0].addEventListener("scroll", function handler() {
     
     if(isFiltered == false) {
       var scrollTop = document.getElementsByClassName("main-wrapper")[0].scrollTop;
@@ -228,6 +232,10 @@
               $("<td>").html("").appendTo(newRow)
             }
             newRow.appendTo("#table tbody")
+            if(i == data.length - 1){
+              this.removeEventListener("scroll",handler)
+              break;
+            }
           }
           lastIndex += 300
       });
@@ -266,6 +274,9 @@
     if(inputValue != "") {
       isFiltered = true
       let array = null
+      $("#search-input-ente").css("border","2px solid #0d6efd")
+      $("#search-button-ente").css("background-color","#0d6efd")
+      $("#search-button-ente").css("border","1px solid #0d6efd")
       $("#table tbody tr").each(function() {
         $(this).remove()
       })
@@ -330,6 +341,9 @@
       });
     } 
     else {
+      $("#search-input-ente").css("border","2px solid #dc3545")
+      $("#search-button-ente").css("background-color","#dc3545")
+      $("#search-button-ente").css("border","1px solid #dc3545")
       alert("Inserire un valore!")
     }
   });
@@ -370,15 +384,19 @@
       }
       let sumSpesaPres = 0
       let sumResiduo = 0
-      $("#tableContainer").css("visibility", "hidden")
-      $("#tableContainerImporto").css("visibility", "visible")
-      $("#labelsImporto").css("display", "block")
-      $("#labelsEntrate").css("display", "block")
 
       if(inputValue != "") {
         isFiltered = true
         let array = null
         var items = {}, base, key;
+        $("#tableContainer").css("visibility", "hidden")
+        $("#tableContainerImporto").css("visibility", "visible")
+        $("#labelsImporto").css("display", "block")
+        $("#labelsEntrate").css("display", "block")
+
+        $("#search-input-ente").css("border","2px solid #0d6efd")
+        $("#search-button-ente").css("background-color","#0d6efd")
+        $("#search-button-ente").css("border","1px solid #0d6efd")
         $("#table tr").each(function() {
           $(this).remove()
         })
@@ -482,6 +500,9 @@
         });
       } 
       else {
+        $("#search-input-ente").css("border","2px solid #dc3545")
+        $("#search-button-ente").css("background-color","#dc3545")
+        $("#search-button-ente").css("border","1px solid #dc3545")
         alert("Inserire un ente di cui calcolare l'importo!")
       }
   });
