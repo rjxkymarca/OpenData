@@ -70,6 +70,16 @@ body {
     @media (hover: none) {
       dfn:hover { color: none; }
     }
+    .card{
+      width: 9rem !important;
+    }
+    .card-text { 
+      text-overflow: ellipsis;
+      overflow: hidden; 
+      width: 7rem; 
+      height: 1.2em; 
+      white-space: nowrap;
+    }
   }
 
   .text{
