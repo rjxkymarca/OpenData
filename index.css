@@ -63,25 +63,11 @@ body {
       width: 100%;
       background-color: #f8f9fa;
     }
-    #labels{
-      width: 100%;
-    }
-    .text{
-      padding-left: 0;
-      float:left;
-    }
-    .sum{
-      padding-right: 0;
-      float: right;
-    }
-    .entr{
-      padding-right: 0;
-      float: right;
-    }
-    #filters div{
-      position: absolute;
-      display: inline-block;
+    #filters{
       width: 100% !important;
+    }
+    @media (hover: none) {
+      dfn:hover { color: none; }
     }
   }
 
@@ -100,8 +86,94 @@ body {
 
   @media (max-width: 1000px) {
     #filters div{
+      width: 100% !important;
+    }
+    #labels{
       width: 90% !important;
     }
+    @media (hover: hover) and (pointer: fine) {
+      a:hover { color: red; }
+    }
+}
+
+@media (hover: hover) {
+  dfn {
+    cursor: help;
+    font-style: normal;
+    position: relative;
+    max-width: fit-content;
+    }
+    dfn::after {
+      content: attr(data-info);
+      display: inline;
+      position: absolute;
+      top: 22px; left: 0;
+      opacity: 0;
+      width: 20rem;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5em;
+      padding: 0.5em 0.8em;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      pointer-events: none; /* This prevents the box from apearing when hovered. */
+      transition: opacity 250ms, top 250ms;
+    }
+    dfn::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 12px; left: 20px;
+      opacity: 0;
+      width: 0; height: 0;
+      border: solid transparent 5px;
+      border-bottom-color: rgba(0,0,0,0.8);
+      transition: opacity 250ms, top 250ms;
+    }
+}
+@media (hover: none) {
+  /* Device that can not hover with ease */
+}
+@media (pointer: coarse) {
+  /* Device with limited pointing accuracy (touch) */
+}
+@media (pointer: fine) {
+  dfn {
+  cursor: help;
+  font-style: normal;
+  position: relative;
+  max-width: fit-content;
+  }
+  dfn::after {
+    content: attr(data-info);
+    display: inline;
+    position: absolute;
+    top: 22px; left: 0;
+    opacity: 0;
+    width: 20rem;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5em;
+    padding: 0.5em 0.8em;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    pointer-events: none; /* This prevents the box from apearing when hovered. */
+    transition: opacity 250ms, top 250ms;
+  }
+  dfn::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 12px; left: 20px;
+    opacity: 0;
+    width: 0; height: 0;
+    border: solid transparent 5px;
+    border-bottom-color: rgba(0,0,0,0.8);
+    transition: opacity 250ms, top 250ms;
+  }
+}
+@media (pointer: none) {
+  /* Device with no pointing */
 }
 
 input[type=text] {
@@ -109,39 +181,7 @@ input[type=text] {
   border-radius: 4px;
 }
 
-dfn {
-  cursor: help;
-  font-style: normal;
-  position: relative;
-  max-width: fit-content;
-}
-dfn::after {
-  content: attr(data-info);
-  display: inline;
-  position: absolute;
-  top: 22px; left: 0;
-  opacity: 0;
-  width: 20rem;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.5em;
-  padding: 0.5em 0.8em;
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  pointer-events: none; /* This prevents the box from apearing when hovered. */
-  transition: opacity 250ms, top 250ms;
-}
-dfn::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 12px; left: 20px;
-  opacity: 0;
-  width: 0; height: 0;
-  border: solid transparent 5px;
-  border-bottom-color: rgba(0,0,0,0.8);
-  transition: opacity 250ms, top 250ms;
-}
+
 
 dfn:hover {z-index: 2;} /* Keeps the info boxes on top of other elements */
 dfn:hover::after,

@@ -35,7 +35,7 @@
   <br>
   <div id="wrapper">
     <h1 style="text-align: center; margin-top: 0.5rem;">Estrazione dati Open data</h1>
-    <div style="text-align: center; padding-top: 0.5rem; width: 100%; margin: 0 auto;" id="filters">
+    <div style="text-align: center; padding-top: 0.5rem; width: 70%; margin: 0 auto;" id="filters">
       <br>
       <div class="input-group mb-3" style="width: 30%;margin: 0 auto;">
         <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
@@ -103,6 +103,7 @@
         </table>
       </div>
     </div>
+    <br><br><br><br>
     <br><br><br><br>
   </div>
   
@@ -356,6 +357,161 @@
         $(this).text( $(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.") ); 
     })
 }
+
+$(document).on('keypress',function(e) {
+    if(e.which == 13) {
+      let inputValue = ""
+      if($("#search-input-ente").val().toUpperCase().includes("COMUNE DI")){
+        inputValue = $("#search-input-ente").val().toUpperCase().replace("COMUNE DI","").trim();
+      }else{
+        inputValue = $("#search-input-ente").val();
+      }
+      if(inputValue.includes("ì")){
+        inputValue = inputValue.replace(/\ì/g, 'i\'')
+      } else if (inputValue.includes("í")){
+        inputValue = inputValue.replace(/\í/g, 'i\'')
+      } else if (inputValue.includes("è")){
+        inputValue = inputValue.replace(/\è/g, 'e\'')
+      } else if (inputValue.includes("é")){
+        inputValue = inputValue.replace(/\é/g, 'e\'')
+      } else if (inputValue.includes("ò")){
+        inputValue = inputValue.replace(/\ò/g, 'o\'')
+      } else if (inputValue.includes("ó")){
+        inputValue = inputValue.replace(/\ó/g, 'o\'')
+      } else if (inputValue.includes("à")){
+        inputValue = inputValue.replace(/\à/g, 'a\'')
+      } else if (inputValue.includes("á")){
+        inputValue = inputValue.replace(/\á/g, 'a\'')
+      } else if (inputValue.includes("ù")){
+        inputValue = inputValue.replace(/\ù/g, 'u\'')
+      } else if (inputValue.includes("ú")){
+        inputValue = inputValue.replace(/\ú/g, 'u\'')
+      }
+      let sumSpesaPres = 0
+      let sumResiduo = 0
+
+      if(inputValue != "") {
+        isFiltered = true
+        let array = null
+        var items = {}, base, key;
+        $("#tableContainer").css("visibility", "hidden")
+        $("#tableContainerImporto").css("visibility", "visible")
+        $("#labelsImporto").css("display", "block")
+        $("#labelsEntrate").css("display", "block")
+
+        $("#search-input-ente").css("border","2px solid #0d6efd")
+        $("#search-button-ente").css("background-color","#0d6efd")
+        $("#search-button-ente").css("border","1px solid #0d6efd")
+        $("#table tr").each(function() {
+          $(this).remove()
+        })
+        $("#tableImporto tbody tr").each(function() {
+          $(this).remove()
+        })
+        $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+          array = data.filter(a => a.ente.toUpperCase() == ("COMUNE DI " + inputValue.toUpperCase()))
+          if(array.length == 0){
+            alert("Inserire un ente valido!");
+            location.reload();
+          }
+          let codComune = array[0].cod_comune
+          $.each(array, function(index, val) {
+            let newRow = $("<tr>")
+              if(val.cod_comune == codComune) {
+                key = val.avviso;
+                if (!items[key]) {
+                    items[key] = 0;
+                }
+                items[key] += val.importo_finanziamento;
+                if(val.avviso.includes("1.2")){
+                  sumSpesaPres += (val.importo_finanziamento * 15)/100
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
+                $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.1")){
+                  sumSpesaPres += (val.importo_finanziamento * 20)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.3 - app IO")){
+                  sumSpesaPres += (val.importo_finanziamento * 40)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.3 - pagoPA")){
+                  sumSpesaPres += (val.importo_finanziamento * 35)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.4")){
+                  sumSpesaPres += (val.importo_finanziamento * 15)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.5")){
+                  sumSpesaPres += (val.importo_finanziamento * 60)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                }
+              }
+          });
+          var outputArr = [];
+          $.each(items, function(key, val) {
+              outputArr.push([key, val]);
+          });
+          outputArr.sort();
+          let sumImporto = 0
+          let entrCorrenti = 0
+          let entrCapitali = 0
+          $("#search-input-ente").val("Comune di " + inputValue.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                    return letter.toUpperCase();
+          }));
+          for(let i = 0; i < outputArr.length; i++)
+          {
+              if(outputArr[i][0].includes("1.2") || outputArr[i][0].includes("1.4.1") || outputArr[i][0].includes("1.4.3") || outputArr[i][0].includes("1.4.4") || outputArr[i][0].includes("1.4.5")){
+                let newRow = $("<tr>")
+                $("<td>").html("Comune di " + inputValue.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                    return letter.toUpperCase();
+                })).appendTo(newRow)
+                $("<td>").html(outputArr[i][0]).appendTo(newRow)
+                if(outputArr[i][0].includes("1.2")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCorrenti += outputArr[i][1] - (outputArr[i][1]*15)/100
+                }else if(outputArr[i][0].includes("1.4.1")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*20)/100
+                }else if(outputArr[i][0].includes("1.4.3 - app IO")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*40)/100
+                }else if(outputArr[i][0].includes("1.4.3 - pagoPA")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*35)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*35)/100
+                }else if(outputArr[i][0].includes("1.4.4")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                    entrCapitali += outputArr[i][1] - (outputArr[i][1]*15)/100
+                }else if(outputArr[i][0].includes("1.4.5")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*60)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*60)/100
+                }
+                $("<td style='text-align: right'>").html(outputArr[i][1].toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                sumImporto += outputArr[i][1]
+                newRow.appendTo("#tableImporto tbody")
+              }
+          }
+          $("#sumImporto").html(sumImporto.toFixed(2).toString().replace(/\./g, ',')).digits()
+          $("#entrCorrenti").html(entrCorrenti.toFixed(2).toString().replace(/\./g, ',')).digits()
+          $("#entrCapitali").html(entrCapitali.toFixed(2).toString().replace(/\./g, ',')).digits()
+        });
+      } 
+      else {
+        $("#search-input-ente").css("border","2px solid #dc3545")
+        $("#search-button-ente").css("background-color","#dc3545")
+        $("#search-button-ente").css("border","1px solid #dc3545")
+        alert("Inserire un ente di cui calcolare l'importo!")
+      }
+    }
+});
 
   $("#btnImporto").on('click', () => {
       let inputValue = ""
