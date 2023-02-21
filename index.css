@@ -79,6 +79,8 @@ body {
       float: right;
     }
     #filters div{
+      position: absolute;
+      display: inline-block;
       width: 100% !important;
     }
   }
