@@ -64,7 +64,7 @@ body {
       background-color: #f8f9fa;
     }
     #labels{
-      width: 90%;
+      width: 100%;
     }
     .text{
       padding-left: 0;
@@ -77,6 +77,9 @@ body {
     .entr{
       padding-right: 0;
       float: right;
+    }
+    #filters div{
+      width: 100% !important;
     }
   }
 
