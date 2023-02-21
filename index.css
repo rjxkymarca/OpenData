@@ -62,6 +62,9 @@ body {
       width: 100%;
       background-color: #f8f9fa;
     }
+    #labels{
+      width: 90%;
+    }
   }
 
   .text{
