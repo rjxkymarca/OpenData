@@ -40,7 +40,9 @@
   width: 100%;
   height: 60px;   /* Height of the footer */
   color:lightgray !important;
-
+}
+footer div{
+  vertical-align: middle;
 }
 
 #filterContainer button{
