@@ -57,6 +57,10 @@ body {
   width: 100%;
 }
 
+#labels{
+  width: 90% !important;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     .main-wrapper{
         width: 80%;
@@ -107,8 +111,13 @@ body {
     @media (hover: hover) and (pointer: fine) {
       a:hover { color: red; }
     }
+    #search-button-ente{
+      width: 100%;
+    }
 }
-
+#labels{
+  width: 100% !important;
+}
 @media (hover: hover) {
   dfn {
     cursor: help;
