@@ -71,12 +71,12 @@ body {
       dfn:hover { color: none; }
     }
     .card{
-      width: 9rem !important;
+      width: 11rem !important;
     }
     .card-text { 
       text-overflow: ellipsis;
       overflow: hidden; 
-      width: 7rem; 
+      width: 8rem; 
       height: 1.2em; 
       white-space: nowrap;
     }
