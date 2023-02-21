@@ -252,7 +252,7 @@
     if($("#search-input-ente").val().toUpperCase().includes("COMUNE DI")){
       inputValue = $("#search-input-ente").val().toUpperCase().replace("COMUNE DI","").trim();
     }else{
-      inputValue = $("#search-input-ente").val();
+      inputValue = $("#search-input-ente").val().trim();
     }
     if(inputValue.includes("ì")){
         inputValue = inputValue.replace(/\ì/g, 'i\'')
@@ -364,7 +364,7 @@ $(document).on('keypress',function(e) {
       if($("#search-input-ente").val().toUpperCase().includes("COMUNE DI")){
         inputValue = $("#search-input-ente").val().toUpperCase().replace("COMUNE DI","").trim();
       }else{
-        inputValue = $("#search-input-ente").val();
+        inputValue = $("#search-input-ente").val().trim();
       }
       if(inputValue.includes("ì")){
         inputValue = inputValue.replace(/\ì/g, 'i\'')
@@ -518,7 +518,7 @@ $(document).on('keypress',function(e) {
       if($("#search-input-ente").val().toUpperCase().includes("COMUNE DI")){
         inputValue = $("#search-input-ente").val().toUpperCase().replace("COMUNE DI","").trim();
       }else{
-        inputValue = $("#search-input-ente").val();
+        inputValue = $("#search-input-ente").val().trim();
       }
       if(inputValue.includes("ì")){
         inputValue = inputValue.replace(/\ì/g, 'i\'')
