@@ -36,8 +36,8 @@
   <br>
   <div id="wrapper">
     <h1 style="text-align: center; margin-top: 0.5rem;">Estrazione dati Open data</h1>
-    <div style="text-align: center; padding-top: 0.5rem; width: 100%; margin: 0 auto;" id="filters">
-      <br>
+    <br>
+    <div style="text-align: center; padding-top: 0.5rem; width: 100%; margin: 0 auto;">
       <div class="input-group mb-3" style="width: 40%;margin: 0 auto;">
         <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
         <dfn style="width: 40rem !important;" data-info="Inserire un ente di cui estrarre i dati. Fare attenzione a eventuali caratteri speciali come accenti o apostrofi.">
@@ -50,40 +50,43 @@
         <button class="btn btn-primary" style="margin: 0;" onclick="location.reload()"><span class="glyphicon glyphicon-refresh"></span> Cancella filtri</button>
         <dfn data-info="Calcola l'importo finanziato, la spesa presunta, il residuo e le entrate di un ente inserito in input."><button class="btn btn-danger" style="margin: 0;" id="btnImporto"><span class="glyphicon glyphicon-refresh"></span> Calcola importo</button></dfn>    
       </div>
-      <br>
-      <div style="width: 72%;margin: 0 auto;padding-top: 5rem;">
-        <div id="labels" style="float: left;">
-          <div id="labelsImporto" style="display: none; width: 100%;margin: 0 auto;">
-            <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span><br>
-            <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
-            <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span>
-            <br><br>
-          </div>
-          <div id="labelsEntrate" style="display: none; width: 100%;margin: 0 auto;">
-            <span class="text"><b>Entrate correnti</b>: </span><span id="entrCorrenti" class="entr">0</span><br>
-            <span class="text"><b>Entrate capitali</b>: </span><span id="entrCapitali" class="entr">0</span><br>
-            <br><br>
+    </div>
+    <br>
+    <div id="flexbox" style="width: 70%;display: flex;flex-wrap:nowrap;margin: 0 auto;">
+      <div style="text-align: center; padding-top: 0.5rem; width: fit-content; margin: 0 auto; float: left;" id="filters">
+        <br>
+        <div style="width: 100%;margin: 0 auto;padding-right: 3rem;">
+          <div id="labels">
+            <div id="labelsImporto" style="display: none; width: 20rem;margin: 0;">
+              <span class="text">Somma importo finanziamento: </span><span id="sumImporto" class="sum">0</span><br>
+              <span class="text">Somma spesa presunta: </span><span id="sumSpesaPres" class="sum">0</span><br>
+              <span class="text">Somma residuo: </span><span id="sumResiduo" class="sum">0</span>
+              <br><br>
+            </div>
+            <div id="labelsEntrate" style="display: none; width: 20rem;margin: 0;">
+              <span class="text"><b>Entrate correnti</b>: </span><span id="entrCorrenti" class="entr">0</span><br>
+              <span class="text"><b>Entrate capitali</b>: </span><span id="entrCapitali" class="entr">0</span><br>
+              <br><br>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <br>
-    <br>
-    <div class="main-wrapper-date" style="display: none;">
-      <div id="tableContainerDate" style="display: block;" class="responsive-table">
-        <table id="tableDate" class="table">
-          <thead id="tableHeadDate" style="overflow: hidden;text-align: center;border: 1px solid #cccccc;">
-            <tr>
-              <th scope="col">Avviso</th>
-              <th scope="col">Data finanziamento</th>
-              <th scope="col">Determina entro il</th>
-              <th scope="col">Completamento entro il</th>
-            </tr>
-          </thead>
-          <tbody id="tableBodyDate" style="text-align: center; vertical-align: middle;">
-  
-          </tbody>
-        </table>
+      <div class="main-wrapper-date" style="display: none;float: right;">
+        <div id="tableContainerDate" style="display: block;" class="responsive-table">
+          <table id="tableDate" class="table">
+            <thead id="tableHeadDate" style="overflow: hidden;text-align: center;border: 1px solid #cccccc;">
+              <tr>
+                <th scope="col">Avviso</th>
+                <th scope="col">Data finanziamento</th>
+                <th scope="col">Determina entro il</th>
+                <th scope="col">Completamento entro il</th>
+              </tr>
+            </thead>
+            <tbody id="tableBodyDate" style="text-align: center; vertical-align: middle;">
+    
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <br>
@@ -308,6 +311,9 @@
       $("#table tbody tr").each(function() {
         $(this).remove()
       })
+      $("#tableDate tbody tr").each(function() {
+          $(this).remove()
+      })
       if($("#tableContainerImporto").css("display") == "block") {
         location.reload()
       }
@@ -430,6 +436,9 @@ $(document).on('keypress',function(e) {
         $("#table tr").each(function() {
           $(this).remove()
         })
+        $("#tableDate tbody tr").each(function() {
+          $(this).remove()
+        })
         $("#tableImporto tbody tr").each(function() {
           $(this).remove()
         })
@@ -440,9 +449,10 @@ $(document).on('keypress',function(e) {
             location.reload();
           }
           let codComune = array[0].cod_comune
+          let dateArray = {}
+          let dates = []
           $.each(array, function(index, val) {
             let newRow = $("<tr>")
-            let newRowDate = $("<tr>")
               if(val.cod_comune == codComune) {
                 key = val.avviso;
                 if (!items[key]) {
@@ -451,67 +461,70 @@ $(document).on('keypress',function(e) {
                 items[key] += val.importo_finanziamento;
                 if(val.avviso.includes("1.2")){
                   let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  $("<td>").html(val.avviso).appendTo(newRowDate)
-                  $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                  $("<td>").html(Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                  $("<td>").html("+ 450").appendTo(newRowDate)
+                  let determina = Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 450"};
+                  dates.push(dateArray)
                   sumSpesaPres += (val.importo_finanziamento * 15)/100
                   sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
                 $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                 $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
                 } else if(val.avviso.includes("1.4.1")){
                   let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  $("<td>").html(val.avviso).appendTo(newRowDate)
-                  $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                  $("<td>").html(Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                  $("<td>").html("+ 360").appendTo(newRowDate)
+                  let determina = Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
+                  dates.push(dateArray)
                   sumSpesaPres += (val.importo_finanziamento * 20)/100
-                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
                   $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                   $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
                 } else if(val.avviso.includes("1.4.3 - app IO")){
                   let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  $("<td>").html(val.avviso).appendTo(newRowDate)
-                  $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                  $("<td>").html(Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                  $("<td>").html("+ 240").appendTo(newRowDate)
+                  let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
+                  dates.push(dateArray)
                   sumSpesaPres += (val.importo_finanziamento * 40)/100
-                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
                   $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                   $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
                 } else if(val.avviso.includes("1.4.3 - pagoPA")){
                   let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  $("<td>").html(val.avviso).appendTo(newRowDate)
-                  $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                  $("<td>").html(Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                  $("<td>").html("+ 240").appendTo(newRowDate)
+                  let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
+                  dates.push(dateArray)
                   sumSpesaPres += (val.importo_finanziamento * 35)/100
-                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
                   $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                   $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
                 } else if(val.avviso.includes("1.4.4")){
                   let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  $("<td>").html(val.avviso).appendTo(newRowDate)
-                  $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                  $("<td>").html(Date.parse(val.data_finanziamento).add(360).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                  $("<td>").html("+ 360").appendTo(newRowDate)
+                  let determina = Date.parse(val.data_finanziamento).add(360).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
+                  dates.push(dateArray)
                   sumSpesaPres += (val.importo_finanziamento * 15)/100
-                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
                   $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                   $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
                 } else if(val.avviso.includes("1.4.5")){
                   let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  $("<td>").html(val.avviso).appendTo(newRowDate)
-                  $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                  $("<td>").html(Date.parse(val.data_finanziamento).add(90).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                  $("<td>").html("+ 180").appendTo(newRowDate)
+                  let determina = Date.parse(val.data_finanziamento).add(90).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 180"};
+                  dates.push(dateArray)
                   sumSpesaPres += (val.importo_finanziamento * 60)/100
-                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
                   $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                   $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
                 }
               }
-              newRowDate.appendTo("#tableBodyDate")
+              
+          });
+          dates.sort(compare)
+          dates.forEach(elem => {
+            let newRowDate = $("<tr>")
+            $("<td>").html(elem.avviso).appendTo(newRowDate)
+            $("<td>").html(elem.dataFin).appendTo(newRowDate)
+            $("<td>").html(elem.determina).appendTo(newRowDate)
+            $("<td>").html(elem.completamento).appendTo(newRowDate)
+            newRowDate.appendTo("#tableBodyDate")
           });
           var outputArr = [];
           $.each(items, function(key, val) {
@@ -570,6 +583,14 @@ $(document).on('keypress',function(e) {
     }
 });
 
+function compare(a, b) {
+    if (a.avviso < b.avviso)
+        return -1;
+    if (a.avviso > b.avviso)
+        return 1;
+    return 0;
+}
+
   $("#btnImporto").on('click', () => {
     let inputValue = ""
     if($("#search-input-ente").val().toUpperCase().includes("COMUNE DI")){
@@ -617,6 +638,9 @@ $(document).on('keypress',function(e) {
       $("#table tr").each(function() {
         $(this).remove()
       })
+      $("#tableDate tbody tr").each(function() {
+          $(this).remove()
+      })
       $("#tableImporto tbody tr").each(function() {
         $(this).remove()
       })
@@ -627,79 +651,83 @@ $(document).on('keypress',function(e) {
           location.reload();
         }
         let codComune = array[0].cod_comune
-        $.each(array, function(index, val) {
-          let newRow = $("<tr>")
-          let newRowDate = $("<tr>")
-            if(val.cod_comune == codComune) {
-              key = val.avviso;
-              if (!items[key]) {
-                  items[key] = 0;
-              }
-              items[key] += val.importo_finanziamento;
-              if(val.avviso.includes("1.2")){
-                let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                $("<td>").html(val.avviso).appendTo(newRowDate)
-                $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                $("<td>").html(Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                $("<td>").html("+ 450").appendTo(newRowDate)
-                sumSpesaPres += (val.importo_finanziamento * 15)/100
-                sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
-              $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-              $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-              } else if(val.avviso.includes("1.4.1")){
-                let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                $("<td>").html(val.avviso).appendTo(newRowDate)
-                $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                $("<td>").html(Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                $("<td>").html("+ 360").appendTo(newRowDate)
-                sumSpesaPres += (val.importo_finanziamento * 20)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
-                $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-              } else if(val.avviso.includes("1.4.3 - app IO")){
-                let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                $("<td>").html(val.avviso).appendTo(newRowDate)
-                $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                $("<td>").html(Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                $("<td>").html("+ 240").appendTo(newRowDate)
-                sumSpesaPres += (val.importo_finanziamento * 40)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
-                $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-              } else if(val.avviso.includes("1.4.3 - pagoPA")){
-                let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                $("<td>").html(val.avviso).appendTo(newRowDate)
-                $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                $("<td>").html(Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                $("<td>").html("+ 240").appendTo(newRowDate)
-                sumSpesaPres += (val.importo_finanziamento * 35)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
-                $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-              } else if(val.avviso.includes("1.4.4")){
-                let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                $("<td>").html(val.avviso).appendTo(newRowDate)
-                $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                $("<td>").html(Date.parse(val.data_finanziamento).add(360).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                $("<td>").html("+ 360").appendTo(newRowDate)
-                sumSpesaPres += (val.importo_finanziamento * 15)/100
+        let dateArray = {}
+          let dates = []
+          $.each(array, function(index, val) {
+            let newRow = $("<tr>")
+              if(val.cod_comune == codComune) {
+                key = val.avviso;
+                if (!items[key]) {
+                    items[key] = 0;
+                }
+                items[key] += val.importo_finanziamento;
+                if(val.avviso.includes("1.2")){
+                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                  let determina = Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 450"};
+                  dates.push(dateArray)
+                  sumSpesaPres += (val.importo_finanziamento * 15)/100
                   sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
                 $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                 $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-              } else if(val.avviso.includes("1.4.5")){
-                let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                $("<td>").html(val.avviso).appendTo(newRowDate)
-                $("<td>").html(dataFinanziamento).appendTo(newRowDate)
-                $("<td>").html(Date.parse(val.data_finanziamento).add(90).day().toString("dd/MM/yyyy")).appendTo(newRowDate)
-                $("<td>").html("+ 180").appendTo(newRowDate)
-                sumSpesaPres += (val.importo_finanziamento * 60)/100
+                } else if(val.avviso.includes("1.4.1")){
+                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                  let determina = Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
+                  dates.push(dateArray)
+                  sumSpesaPres += (val.importo_finanziamento * 20)/100
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.3 - app IO")){
+                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                  let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
+                  dates.push(dateArray)
+                  sumSpesaPres += (val.importo_finanziamento * 40)/100
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.3 - pagoPA")){
+                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                  let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
+                  dates.push(dateArray)
+                  sumSpesaPres += (val.importo_finanziamento * 35)/100
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.4")){
+                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                  let determina = Date.parse(val.data_finanziamento).add(360).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
+                  dates.push(dateArray)
+                  sumSpesaPres += (val.importo_finanziamento * 15)/100
+                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                } else if(val.avviso.includes("1.4.5")){
+                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                  let determina = Date.parse(val.data_finanziamento).add(90).day().toString("dd/MM/yyyy")
+                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 180"};
+                  dates.push(dateArray)
+                  sumSpesaPres += (val.importo_finanziamento * 60)/100
                   sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
-                $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                }
               }
-            }
+              
+          });
+          dates.sort(compare)
+          dates.forEach(elem => {
+            let newRowDate = $("<tr>")
+            $("<td>").html(elem.avviso).appendTo(newRowDate)
+            $("<td>").html(elem.dataFin).appendTo(newRowDate)
+            $("<td>").html(elem.determina).appendTo(newRowDate)
+            $("<td>").html(elem.completamento).appendTo(newRowDate)
             newRowDate.appendTo("#tableBodyDate")
-        });
+          });
         var outputArr = [];
         $.each(items, function(key, val) {
             outputArr.push([key, val]);
