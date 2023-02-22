@@ -6,6 +6,17 @@
     box-sizing: border-box;
     box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
   }
+  .main-wrapper-date{
+    width: 30%;
+    overflow-y: auto;
+    height: 300px;
+    margin-right: 6rem;
+    margin-bottom: 4rem;
+    box-sizing: border-box;
+    float: right;
+    box-shadow: rgba(255, 255, 255, 0.1) 1px 0px 1px 0px inset, rgba(50, 50, 93, 0.25) 50px 0px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  }
+  tr:hover {background-color: rgb(221, 221, 221);}
   #wrapper{
     margin: 0 auto;
   }
@@ -58,13 +69,19 @@ body {
 }
 
 #labels{
-  width: 90% !important;
+  width: fit-content !important;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     .main-wrapper{
         width: 80%;
         padding: 0;
+      }
+      .main-wrapper-date{
+        width: 70%;
+        padding: 0;
+        margin: 0 auto;
+        float: none;
       }
     #nav{
       width: 100%;
@@ -105,6 +122,10 @@ body {
     #filters div{
       width: 100% !important;
     }
+    .main-wrapper-date{
+      width: 70%;
+      padding: 0;
+    }
     #labels{
       width: 90% !important;
     }
@@ -116,7 +137,7 @@ body {
     }
 }
 #labels{
-  width: 100% !important;
+  width: 30rem !important;
 }
 @media (hover: hover) {
   dfn {
