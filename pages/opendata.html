@@ -556,7 +556,7 @@ $(document).on('keypress',function(e) {
           }));
           for(let i = 0; i < outputArr.length; i++)
           {
-              if(outputArr[i][0].includes("1.2") || outputArr[i][0].includes("1.4.1") || outputArr[i][0].includes("1.4.3") || outputArr[i][0].includes("1.4.4") || outputArr[i][0].includes("1.4.5")){
+              if(outputArr[i][0].includes("1.2") || outputArr[i][0].includes("1.4.1") || outputArr[i][0].includes("1.4.3") || outputArr[i][0].includes("1.4.4") || outputArr[i][0].includes("1.4.5") || outputArr[i][0].includes("1.3.1")){
                 let newRow = $("<tr>")
                 $("<td>").html("Comune di " + inputValue.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                     return letter.toUpperCase();
@@ -681,60 +681,71 @@ function compare(a, b) {
                     items[key] = 0;
                 }
                 items[key] += val.importo_finanziamento;
-                if(val.avviso.includes("1.2")){
+                if(!val.stato_candidatura.includes("R")){
+                  if(val.avviso.includes("1.2")){
                   let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
                   let determina = Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")
                   dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 450"};
                   dates.push(dateArray)
                   sumSpesaPres += (val.importo_finanziamento * 15)/100
                   sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
-                $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-                } else if(val.avviso.includes("1.4.1")){
-                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  let determina = Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")
-                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
-                  dates.push(dateArray)
-                  sumSpesaPres += (val.importo_finanziamento * 20)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
                   $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
                   $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-                } else if(val.avviso.includes("1.4.3 - app IO")){
-                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
-                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
-                  dates.push(dateArray)
-                  sumSpesaPres += (val.importo_finanziamento * 40)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
-                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-                } else if(val.avviso.includes("1.4.3 - pagoPA")){
-                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
-                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
-                  dates.push(dateArray)
-                  sumSpesaPres += (val.importo_finanziamento * 35)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
-                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-                } else if(val.avviso.includes("1.4.4")){
-                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  let determina = Date.parse(val.data_finanziamento).add(360).day().toString("dd/MM/yyyy")
-                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
-                  dates.push(dateArray)
-                  sumSpesaPres += (val.importo_finanziamento * 15)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
-                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
-                } else if(val.avviso.includes("1.4.5")){
-                  let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
-                  let determina = Date.parse(val.data_finanziamento).add(90).day().toString("dd/MM/yyyy")
-                  dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 180"};
-                  dates.push(dateArray)
-                  sumSpesaPres += (val.importo_finanziamento * 60)/100
-                  sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
-                  $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
-                  $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  } else if(val.avviso.includes("1.4.1")){
+                    let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                    let determina = Date.parse(val.data_finanziamento).add(270).day().toString("dd/MM/yyyy")
+                    dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
+                    dates.push(dateArray)
+                    sumSpesaPres += (val.importo_finanziamento * 20)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 20)/100)
+                    $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                    $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  } else if(val.avviso.includes("1.4.3 - app IO")){
+                    let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                    let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
+                    dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
+                    dates.push(dateArray)
+                    sumSpesaPres += (val.importo_finanziamento * 40)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 40)/100)
+                    $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                    $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  } else if(val.avviso.includes("1.4.3 - pagoPA")){
+                    let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                    let determina = Date.parse(val.data_finanziamento).add(180).day().toString("dd/MM/yyyy")
+                    dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 240"};
+                    dates.push(dateArray)
+                    sumSpesaPres += (val.importo_finanziamento * 35)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 35)/100)
+                    $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                    $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  } else if(val.avviso.includes("1.4.4")){
+                    let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                    let determina = Date.parse(val.data_finanziamento).add(360).day().toString("dd/MM/yyyy")
+                    dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 360"};
+                    dates.push(dateArray)
+                    sumSpesaPres += (val.importo_finanziamento * 15)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 15)/100)
+                    $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                    $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  } else if(val.avviso.includes("1.4.5")){
+                    let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                    let determina = Date.parse(val.data_finanziamento).add(90).day().toString("dd/MM/yyyy")
+                    dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 180"};
+                    dates.push(dateArray)
+                    sumSpesaPres += (val.importo_finanziamento * 60)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 60)/100)
+                    $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                    $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  } else if(val.avviso.includes("1.3.1")){
+                    let dataFinanziamento = Date.parse(val.data_finanziamento).toString("dd/MM/yyyy")
+                    let determina = Date.parse(val.data_finanziamento).add(90).day().toString("dd/MM/yyyy")
+                    dateArray = {"avviso" : val.avviso, "dataFin" : dataFinanziamento, "determina" : determina, "completamento" : "+ 0"};
+                    dates.push(dateArray)
+                    sumSpesaPres += (val.importo_finanziamento * 50)/100
+                    sumResiduo += val.importo_finanziamento - ((val.importo_finanziamento * 50)/100)
+                    $("#sumSpesaPres").html(sumSpesaPres.toFixed(2).toString().replace(/\./g, ',')).digits()
+                    $("#sumResiduo").html(sumResiduo.toFixed(2).toString().replace(/\./g, ',')).digits()
+                  }
                 }
               }
               
@@ -761,35 +772,38 @@ function compare(a, b) {
         }));
         for(let i = 0; i < outputArr.length; i++)
         {
-            if(outputArr[i][0].includes("1.2") || outputArr[i][0].includes("1.4.1") || outputArr[i][0].includes("1.4.3") || outputArr[i][0].includes("1.4.4") || outputArr[i][0].includes("1.4.5")){
-              let newRow = $("<tr>")
-              $("<td>").html("Comune di " + inputValue.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-                  return letter.toUpperCase();
-              })).appendTo(newRow)
-              $("<td>").html(outputArr[i][0]).appendTo(newRow)
-              if(outputArr[i][0].includes("1.2")){
-                $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
-                entrCorrenti += outputArr[i][1] - (outputArr[i][1]*15)/100
-              }else if(outputArr[i][0].includes("1.4.1")){
-                $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
-                entrCapitali += outputArr[i][1] - (outputArr[i][1]*20)/100
-              }else if(outputArr[i][0].includes("1.4.3 - app IO")){
-                $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
-                entrCapitali += outputArr[i][1] - (outputArr[i][1]*40)/100
-              }else if(outputArr[i][0].includes("1.4.3 - pagoPA")){
-                $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*35)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
-                entrCapitali += outputArr[i][1] - (outputArr[i][1]*35)/100
-              }else if(outputArr[i][0].includes("1.4.4")){
-                $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
-                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*15)/100
-              }else if(outputArr[i][0].includes("1.4.5")){
-                $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*60)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
-                entrCapitali += outputArr[i][1] - (outputArr[i][1]*60)/100
+            if(outputArr[i][0].includes("1.2") || outputArr[i][0].includes("1.4.1") || outputArr[i][0].includes("1.4.3") || outputArr[i][0].includes("1.4.4") || outputArr[i][0].includes("1.4.5") || outputArr[i][0].includes("1.3.1")){
+                let newRow = $("<tr>")
+                $("<td>").html("Comune di " + inputValue.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                    return letter.toUpperCase();
+                })).appendTo(newRow)
+                $("<td>").html(outputArr[i][0]).appendTo(newRow)
+                if(outputArr[i][0].includes("1.2")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCorrenti += outputArr[i][1] - (outputArr[i][1]*40)/100
+                }else if(outputArr[i][0].includes("1.4.1")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*20)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*20)/100
+                }else if(outputArr[i][0].includes("1.4.3 - app IO")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*40)/100
+                }else if(outputArr[i][0].includes("1.4.3 - pagoPA")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*35)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*35)/100
+                }else if(outputArr[i][0].includes("1.4.4")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*15)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                    entrCapitali += outputArr[i][1] - (outputArr[i][1]*15)/100
+                }else if(outputArr[i][0].includes("1.4.5")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*40)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*40)/100
+                }else if(outputArr[i][0].includes("1.3.1")){
+                  $("<td style='text-align: right'>").html((outputArr[i][1] - (outputArr[i][1]*50)/100).toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                  entrCapitali += outputArr[i][1] - (outputArr[i][1]*50)/100
+                }
+                $("<td style='text-align: right'>").html(outputArr[i][1].toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
+                sumImporto += outputArr[i][1]
+                newRow.appendTo("#tableImporto tbody")
               }
-              $("<td style='text-align: right'>").html(outputArr[i][1].toFixed(2).toString().replace(/\./g, ',')).digits().appendTo(newRow)
-              sumImporto += outputArr[i][1]
-              newRow.appendTo("#tableImporto tbody")
-            }
         }
         $("#sumImporto").html(sumImporto.toFixed(2).toString().replace(/\./g, ',')).digits()
         $("#entrCorrenti").html(entrCorrenti.toFixed(2).toString().replace(/\./g, ',')).digits()
