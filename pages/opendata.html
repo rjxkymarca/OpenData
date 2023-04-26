@@ -39,7 +39,9 @@
     <br>
     <div style="text-align: center; padding-top: 0.5rem; width: 100%; margin: 0 auto;">
       <div class="input-group mb-3" style="width: 40%;margin: 0 auto;">
-        <input id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
+        <input list="enti" id="search-input-ente" type="text" class="form-control" placeholder="Cerca per ente">
+        <datalist id="enti">
+        </datalist>
         <dfn style="width: 40rem !important;" data-info="Inserire un ente di cui estrarre i dati. Fare attenzione a eventuali caratteri speciali come accenti o apostrofi.">
         <button class="btn btn-primary" id="search-button-ente" type="button">
           <i class="bi bi-search"></i>
@@ -145,6 +147,22 @@
   <script>
     let isFiltered = false
     let lastIndex = 0
+    let comuni = [];
+    $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
+      isFiltered = false  
+      for(let i = 0; i < data.length - 1; i++)
+      {
+        comuni.push(data[i].ente)
+      }
+      var uniqueComuni = [];
+      $.each(comuni, function(i, el){
+          if($.inArray(el, uniqueComuni) === -1) uniqueComuni.push(el);
+      });
+      $.each(uniqueComuni, function(i, el){
+          $("#enti").append("<option value='" + el + "'>")
+      });
+      })
+      
     $.getJSON('https://raw.githubusercontent.com/teamdigitale/padigitale2026-opendata/main/data/candidature_comuni_finanziate.json', function(data) {
       isFiltered = false  
       for(let i = 0; i < 300; i++)
